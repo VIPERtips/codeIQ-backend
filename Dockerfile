@@ -18,8 +18,7 @@ WORKDIR /app
 # Copy only the built JAR from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
-# Ensure the .env file is available at runtime
-COPY .env .env
+
 
 # Reduce startup time with JVM optimizations
 ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:TieredStopAtLevel=1", "-jar", "app.jar"]
