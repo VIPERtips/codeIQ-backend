@@ -9,13 +9,12 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class QuizApp {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
-		System.setProperty("DATABASE_HOST", dotenv.get("DATABASE_HOST"));
-        System.setProperty("DATABASE_PORT", dotenv.get("DATABASE_PORT"));
-        System.setProperty("DATABASE_NAME", dotenv.get("DATABASE_NAME"));
-        System.setProperty("DATABASE_USER", dotenv.get("DATABASE_USER"));
-        System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
-		
+		System.setProperty("DATABASE_HOST", System.getenv("DATABASE_HOST"));
+		System.setProperty("DATABASE_PORT", System.getenv("DATABASE_PORT"));
+		System.setProperty("DATABASE_NAME", System.getenv("DATABASE_NAME"));
+		System.setProperty("DATABASE_USER", System.getenv("DATABASE_USER"));
+		System.setProperty("DATABASE_PASSWORD", System.getenv("DATABASE_PASSWORD"));
+
 		SpringApplication.run(QuizApp.class, args);
 	}
 
