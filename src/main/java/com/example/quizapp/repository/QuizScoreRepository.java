@@ -13,4 +13,5 @@ public interface QuizScoreRepository extends JpaRepository<QuizScore, Integer> {
 	Optional<QuizScore> findByUser(User user);
 	@Query("Select  qs from QuizScore qs join Fetch qs.user order by qs.score desc")
 	List<QuizScore> findAllScores();
+	void deleteByUser(User user);
 }

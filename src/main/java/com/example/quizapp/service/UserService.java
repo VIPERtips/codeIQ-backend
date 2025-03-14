@@ -52,7 +52,7 @@ public class UserService {
 	}	
 	
 	public Page<QuizScore> getAllScores(int page, int size){
-		//return quizScoreRepository.findAll(pageable);
+		
 		Pageable pageable = PageRequest.of(page, size);
 		List<QuizScore> scores = quizScoreRepository.findAllScores();
 		
@@ -62,4 +62,17 @@ public class UserService {
 		
 		return new PageImpl<>(pagintatedScores,pageable,scores.size());
 	}
+	
+	@Transactional
+	public void deleteUser(String username) {
+	    User user = userRepository.findByUsername(username)
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	    
+	    quizScoreRepository.deleteByUser(user);
+
+	    
+	    userRepository.delete(user);
+	}
+
 }
