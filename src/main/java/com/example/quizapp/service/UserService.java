@@ -34,27 +34,38 @@ public class UserService {
 	}
 	
 	@Transactional
-	public QuizScore addQuizScore(String username,int score) {
+	public QuizScore addQuizScore(String username,int score,String language) {
 		User user = getOrCreateUser(username);
+		if( language == null) {
+			throw new RuntimeException("Please provide a language");
+		}
 		QuizScore existingScore = quizScoreRepository.findByUser(user).stream().findFirst().orElse(null);
 		if(existingScore != null) {
 			existingScore.setScore(score);
 			existingScore.setQuizDate(LocalDate.now());
+			existingScore.setLanguage(language);
 			return quizScoreRepository.save(existingScore);
 		} else {
 			QuizScore quizScore = new QuizScore();
 			quizScore.setScore(score);
 			quizScore.setQuizDate(LocalDate.now());
 			quizScore.setUser(user);
+			quizScore.setLanguage(language);
 			return quizScoreRepository.save(quizScore);
 		}
 		
 	}	
 	
-	public Page<QuizScore> getAllScores(int page, int size){
+	public Page<QuizScore> getAllScores(int page, int size,String language){
 		
 		Pageable pageable = PageRequest.of(page, size);
-		List<QuizScore> scores = quizScoreRepository.findAllScores();
+		
+		List<QuizScore> scores ;
+		if(language != null && !language.isEmpty()) {
+			scores = quizScoreRepository.findByLanguage(language);
+		}else {
+			scores =  quizScoreRepository.findAllScores();
+		}
 		
 		int start =Math.min((int) pageable.getOffset(),scores.size());
 		int end = Math.min((start + pageable.getPageSize()),scores.size());

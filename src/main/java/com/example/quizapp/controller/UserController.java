@@ -34,13 +34,19 @@ public class UserController {
 	 
 	 @PostMapping("/score")
 	 public QuizScore addScore(@RequestBody ScoreRequest req) {
-		 return userService.addQuizScore(req.getUsername(), req.getScore());
+		 try {
+			 return userService.addQuizScore(req.getUsername(), req.getScore(),req.getLanguage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
 	 }
 	 
 	 @GetMapping("/all-scores")
-	 public Page<QuizScore> getScores(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+	 public Page<QuizScore> getScores(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+			 @RequestParam(required =  false)String language){
 		 return userService.getAllScores(
-				 page,size
+				 page,size,language
 				 );
 	 }
 	 

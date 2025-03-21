@@ -20,6 +20,7 @@ public class QuizScore {
 	private int id;
 	private int score;
 	private LocalDate quizDate;
+	private String language;
 	
 	@ManyToOne(fetch =  FetchType.LAZY)
 	@JoinColumn(name="user_id")
@@ -53,6 +54,14 @@ public class QuizScore {
 
 	public LocalDate getQuizDate() {
 		return quizDate;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	public void setQuizDate(LocalDate quizDate) {
